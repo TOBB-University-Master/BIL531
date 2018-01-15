@@ -147,8 +147,8 @@ public class Main {
      * Give an O(n·lgn)-algorithm for the special case of the Subset Sum problem
      */
     public static ArrayList<ArrayList<Integer>> subsetSumQ4(int[] A , int sum){
-        // eğer verilen array sorted ise O(n.logn) ile bulunabilir çünkü her sayı için binary searchte arama yapılır
         
+        // Assume that given array sorted. 
         ArrayList<ArrayList<Integer>> resultSets = new ArrayList<ArrayList<Integer>>();
         for ( int i : A ){
             int result = binarySearch(A, 0 , A.length-1, sum-i);
@@ -158,10 +158,10 @@ public class Main {
                 temp.add(A[result]);
                 resultSets.add(temp);
             }
-        }
-            
+        }   
         return resultSets;
     }
+    
     
     /**
      * Util function
