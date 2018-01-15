@@ -6,9 +6,6 @@
 package com.karaca.bil531.hm1;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  *
@@ -18,24 +15,35 @@ public class Main {
     
     
     public static void main(String[] args){
+        
         System.out.println("***** ***** ***** FERMATS CONJECTURE ***** ***** *****");
         fermatConjecture(2);
         
         System.out.println("***** ***** ***** SUBSET SUM PROBLEM ***** ***** *****");
         int[] test = {  2 , 3 , 4 , 5, 7 , 8 , 9, 11 , 12};
+        int sum = 11;
         System.out.println("Subset sum q1 >>");
         System.out.println(subsetSumQ1(test, 16));
         
         System.out.println("Subset sum q2 >>");
-        ArrayList<ArrayList<Integer>> subsetList = subsetSumQ2(test, 11);
+        ArrayList<ArrayList<Integer>> subsetList = subsetSumQ2(test, sum);
         for (ArrayList<Integer> x : subsetList)
             System.out.println(x);
         
+        System.out.println("Subset sum q3 >>");
+        subsetSumQ3(test,0,sum,new int[test.length]);
+        
         System.out.println("Subset sum q4 >>");
-        ArrayList<ArrayList<Integer>> subsetListQ4 = subsetSumQ4(test, 11);
+        ArrayList<ArrayList<Integer>> subsetListQ4 = subsetSumQ4(test, sum);
         for (ArrayList<Integer> x : subsetListQ4)
             System.out.println(x);
     }
+    
+    //**************************************************************************
+    //**************************************************************************
+    //  PROPERLY ORDERING A COUNTABLE SET
+    //**************************************************************************
+    //**************************************************************************
     
     /**
      * Math.pow(a,n) + Math.pow(b,n) = Math.pow(c,n)
@@ -57,8 +65,13 @@ public class Main {
         }while(true);
     }
     
+    
+    //**************************************************************************
+    //**************************************************************************
+    //  EFFICIENT ALGORITHM DESIGN FOR SPECIAL CASES OF SUBSET SUM 
+    //**************************************************************************
+    //**************************************************************************
     /**
-     * EFFICIENT ALGORITHM DESIGN FOR SPECIAL CASES OF SUBSET SUM
      * Special case >> |S| = 2
      */
     public static boolean subsetSumQ1(int[] A , int sum){
@@ -76,7 +89,6 @@ public class Main {
     
     
     /**
-     * EFFICIENT ALGORITHM DESIGN FOR SPECIAL CASES OF SUBSET SUM
      * Special case >> |S| = 2
      */
     public static ArrayList<ArrayList<Integer>> subsetSumQ2(int[] A , int sum){
@@ -103,16 +115,34 @@ public class Main {
     
     
     /**
-     * EFFICIENT ALGORITHM DESIGN FOR SPECIAL CASES OF SUBSET SUM
      * Special case >> |S| = 2
      */
-    public static ArrayList<ArrayList<Integer>> subsetSumQ3(int[] A , int sum){
-        return null;
+    public static void subsetSumQ3(int[] A, int index, int sum, int[] solution){
+        
+        int currSum = 0;
+        for(int i=0; i<A.length ; i++)
+            currSum += A[i] * solution[i];
+        
+        if(index != A.length){
+            if (currSum == sum) {
+                ArrayList<Integer> x = new ArrayList<>();
+                for (int i = 0; i < solution.length; i++) {
+                    if (solution[i] == 1) {
+                        x.add(A[i]);
+                    }
+                }
+                System.out.println(x);
+            } else {
+                solution[index] = 1;
+                subsetSumQ3(A, index + 1, sum, solution);
+                solution[index] = 0;
+                subsetSumQ3(A, index + 1, sum, solution);
+            }
+        }
     }
     
     
     /**
-     * EFFICIENT ALGORITHM DESIGN FOR SPECIAL CASES OF SUBSET SUM
      * Special case >> |S| = 2
      * Give an O(n·lgn)-algorithm for the special case of the Subset Sum problem
      */
@@ -133,6 +163,9 @@ public class Main {
         return resultSets;
     }
     
+    /**
+     * Util function
+     */
     public static int binarySearch(int arr[], int l, int r, int x) {
         if (r >= l) {
             int mid = l + (r - l) / 2;
