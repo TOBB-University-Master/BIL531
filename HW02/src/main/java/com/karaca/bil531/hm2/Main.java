@@ -17,7 +17,7 @@ public class Main {
     public static void main(String[] args){
         System.out.println("***** ***** ***** SUBSET SUM PROBLEM ***** ***** *****");
         int[] test = { -4 , 2 , 4 , 5, 7 , 8 , 9, 11 , 12};
-        int sum = 22;
+        int sum = 3;
        
         System.out.println("Subset sum O(n) >>");
         System.out.println(subsetSum(test, sum));
@@ -40,7 +40,7 @@ public class Main {
         
         printArray(A);
         if(min<0){
-            sum += (Math.abs(min));
+            sum += (Math.abs(min))*2;
             for(int i=0; i<A.length; i++){
                 A[i]=A[i] + (Math.abs(min));
             }
@@ -56,12 +56,9 @@ public class Main {
                 int intPosition = i;
                 int sumMinusPosition = sum - i;
                 sumArray[intPosition]++;
-                if(intPosition!=sumMinusPosition){
-                    sumArray[sumMinusPosition]++;
-                }
                     
                 printArray(sumArray);
-                if(sumArray[intPosition] == 2) 
+                if(sumArray[sumMinusPosition] == 1 && sumMinusPosition!=intPosition ) 
                     return true;
             }
         }   
